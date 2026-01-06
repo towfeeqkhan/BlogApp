@@ -10,6 +10,13 @@ function IKImage({ src, className, alt, w, h }) {
       loading="lazy"
       width={w}
       height={h}
+      transformation={[
+        {
+          width: w,
+          height: h,
+          lqip: true,
+        },
+      ]}
     />
   );
 }
