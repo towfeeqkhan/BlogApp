@@ -1,4 +1,5 @@
 import { Link } from "react-router";
+import Comments from "../components/Comments";
 import IKImage from "../components/IKImage";
 import PostMenuActions from "../components/PostMenuActions";
 import Search from "../components/Search";
@@ -171,7 +172,7 @@ function SinglePostPage() {
           <Search />
         </div>
       </div>
-      {/* <Comments postId={data._id} /> */}
+      <Comments />
     </div>
   );
 }
