@@ -29,7 +29,7 @@ function Navbar() {
           <Link to="/">Trending</Link>
           <Link to="/">Most Popular</Link>
           <Link to="/">About</Link>
-          <Link to="/">
+          <Link to="/login">
             <button className="py-2 px-6 rounded-3xl bg-blue-800 text-white">
               Login
             </button>
