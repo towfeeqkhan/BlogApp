@@ -13,7 +13,7 @@ app.use("/posts", postRouter);
 app.use("/comments", commentRouter);
 
 app.use((error, req, res, next) => {
-  const statusCode = error.status || 500;
+  const statusCode = error.statusCode || 500;
   res.status(statusCode).json({
     message: error.message || "Something went wrong. Please try again later.",
     stack: process.env.NODE_ENV === "production" ? null : error.stack,
