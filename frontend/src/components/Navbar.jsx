@@ -1,9 +1,21 @@
-import { SignedIn, SignedOut, UserButton } from "@clerk/clerk-react";
-import { useState } from "react";
+import { SignedIn, SignedOut, useAuth, UserButton } from "@clerk/clerk-react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router";
 import IKImage from "./IKImage";
 function Navbar() {
   const [open, setOpen] = useState(false);
+
+  const { getToken } = useAuth();
+
+  useEffect(() => {
+    const fetchToken = async () => {
+      const token = await getToken();
+      console.log("Clerk Token:", token);
+    };
+
+    fetchToken();
+  }, [getToken]);
+
   return (
     <div className="w-full h-16 md:h-20 flex items-center justify-between">
       {/* Logo */}
