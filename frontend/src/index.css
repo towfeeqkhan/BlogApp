@@ -21,4 +21,5 @@ body {
 
 .ql-editor {
   border: none !important;
+  font-size: 1.125rem !important; /* text-lg */
 }

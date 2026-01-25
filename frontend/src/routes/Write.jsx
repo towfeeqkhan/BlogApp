@@ -1,14 +1,38 @@
 import { useAuth, useUser } from "@clerk/clerk-react";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import ReactQuill from "react-quill-new";
 import "react-quill-new/dist/quill.snow.css";
 import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
 
+const authenticator = async () => {
+  try {
+    const response = await fetch(
+      `${import.meta.env.VITE_API_URL}/posts/upload-auth`,
+    );
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(
+        `Request failed with status ${response.status}: ${errorText}`,
+      );
+    }
+
+    const data = await response.json();
+    const { signature, expire, token, publicKey } = data;
+    return { signature, expire, token, publicKey };
+  } catch (error) {
+    console.error("Authentication error:", error);
+    throw new Error("Authentication request failed");
+  }
+};
+
 function Write() {
   const [value, setValue] = useState("");
+  const [cover, setCover] = useState("");
+
+  const [uploadProgress, setUploadProgress] = useState(0);
   const { isLoaded, isSignedIn } = useUser();
   const navigate = useNavigate();
   const { getToken } = useAuth();
@@ -33,6 +57,85 @@ function Write() {
     }
   }, [isLoaded, isSignedIn, navigate]);
 
+  const reactQuillRef = useRef(null);
+
+  const uploadToImageKit = async (file, onProgress) => {
+    try {
+      const { signature, expire, token } = await authenticator();
+
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("fileName", file.name);
+      formData.append("publicKey", import.meta.env.VITE_IK_PUBLIC_KEY);
+      formData.append("signature", signature);
+      formData.append("expire", expire);
+      formData.append("token", token);
+      formData.append("useUniqueFileName", "true");
+      formData.append("folder", "/blogApp");
+
+      const response = await axios.post(
+        "https://upload.imagekit.io/api/v1/files/upload",
+        formData,
+        {
+          onUploadProgress: (progressEvent) => {
+            if (onProgress) {
+              const percentCompleted = Math.round(
+                (progressEvent.loaded * 100) / progressEvent.total,
+              );
+              onProgress(percentCompleted);
+            }
+          },
+        },
+      );
+      return response.data;
+    } catch (err) {
+      console.error("Upload Error:", err);
+      throw err;
+    }
+  };
+
+  const imageHandler = useCallback(() => {
+    const input = document.createElement("input");
+    input.setAttribute("type", "file");
+    input.setAttribute("accept", "image/*");
+    input.click();
+
+    input.onchange = async () => {
+      const file = input.files[0];
+      if (file) {
+        try {
+          const res = await uploadToImageKit(file, setUploadProgress);
+          const quill = reactQuillRef.current.getEditor();
+          const range = quill.getSelection(true);
+          quill.insertEmbed(range.index, "image", res.url);
+          setUploadProgress(0); // Reset progress after success
+        } catch (err) {
+          toast.error("Image upload failed");
+          console.log(err);
+          setUploadProgress(0);
+        }
+      }
+    };
+  }, []);
+
+  const modules = useMemo(
+    () => ({
+      toolbar: {
+        container: [
+          [{ header: [1, 2, 3, false] }],
+          ["bold", "italic", "underline", "strike"],
+          [{ list: "ordered" }, { list: "bullet" }],
+          ["link", "image"],
+          ["clean"],
+        ],
+        handlers: {
+          image: imageHandler,
+        },
+      },
+    }),
+    [imageHandler],
+  );
+
   if (!isLoaded) {
     return <div className="">Loading...</div>;
   }
@@ -46,6 +149,7 @@ function Write() {
     const formData = new FormData(e.target);
 
     const data = {
+      img: cover.filePath || "",
       title: formData.get("title"),
       category: formData.get("category"),
       desc: formData.get("desc"),
@@ -59,9 +163,50 @@ function Write() {
     <div className="h-[calc(100vh-64px)] md:h-[calc(100vh-80px)] flex flex-col gap-6">
       <h1 className="text-cl font-light">Create a New Post</h1>
       <form onSubmit={handleSubmit} className="flex flex-col gap-6 flex-1 mb-6">
-        <button className="w-max p-2 shadow-md rounded-xl text-sm text-gray-500 bg-white">
+        {/* <button className="w-max p-2 shadow-md rounded-xl text-sm text-gray-500 bg-white">
           Add a cover image
-        </button>
+        </button> */}
+        {/* <button className="w-max p-2 shadow-md rounded-xl text-sm text-gray-500 bg-white">
+          Add a cover image
+        </button> */}
+        <label className="cursor-pointer">
+          <div className="w-max p-2 shadow-md rounded-xl text-sm text-gray-500 bg-white">
+            Add a cover image
+          </div>
+          <input
+            type="file"
+            className="hidden"
+            onChange={async (e) => {
+              const file = e.target.files[0];
+              if (!file) return;
+
+              setUploadProgress(1); // Show progress immediately
+              setCover({ url: URL.createObjectURL(file) }); // Immediate preview
+
+              try {
+                const res = await uploadToImageKit(file);
+                setCover(res);
+                setUploadProgress(100);
+                toast.success("Image uploaded successfully!");
+              } catch (err) {
+                console.error(err);
+                toast.error("Image upload failed!");
+                setCover("");
+                setUploadProgress(0);
+              }
+            }}
+          />
+        </label>
+        {uploadProgress > 0 && uploadProgress < 100 && (
+          <div className="">{"Uploading " + uploadProgress + "%"}</div>
+        )}
+        {cover && (
+          <img
+            src={cover.url}
+            alt=""
+            className="w-48 h-48 object-cover rounded-md"
+          />
+        )}
         <input
           className="text-4xl font-semibold bg-transparent outline-none"
           type="text"
@@ -92,9 +237,11 @@ function Write() {
         />
         <ReactQuill
           theme="snow"
-          className="flex-1 rounded-xl bg-white shadow-md"
+          className="flex-1 rounded-xl bg-white shadow-md min-h-75"
           value={value}
           onChange={setValue}
+          ref={reactQuillRef}
+          modules={modules}
         />
         <button
           disabled={isPending}

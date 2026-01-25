@@ -12,6 +12,7 @@
   "type": "module",
   "dependencies": {
     "@clerk/express": "^1.7.64",
+    "@imagekit/nodejs": "^7.2.1",
     "body-parser": "^2.2.2",
     "cors": "^2.8.6",
     "express": "^5.2.1",
