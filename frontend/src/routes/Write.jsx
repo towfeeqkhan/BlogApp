@@ -1,12 +1,31 @@
-import { useUser } from "@clerk/clerk-react";
-import { useEffect } from "react";
+import { useAuth, useUser } from "@clerk/clerk-react";
+import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
+import { useEffect, useState } from "react";
 import ReactQuill from "react-quill-new";
 import "react-quill-new/dist/quill.snow.css";
 import { useNavigate } from "react-router";
+import { toast } from "react-toastify";
 
 function Write() {
+  const [value, setValue] = useState("");
   const { isLoaded, isSignedIn } = useUser();
   const navigate = useNavigate();
+  const { getToken } = useAuth();
+
+  const { mutate, isPending, isError, error } = useMutation({
+    mutationFn: async (newPost) => {
+      const token = await getToken();
+      return axios.post(`${import.meta.env.VITE_API_URL}/posts`, newPost, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+    },
+
+    onSuccess: (res) => {
+      toast.success("Post created successfully!");
+      navigate(`/${res.data.slug}`);
+    },
+  });
 
   useEffect(() => {
     if (isLoaded && !isSignedIn) {
@@ -22,10 +41,24 @@ function Write() {
     return null;
   }
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+
+    const data = {
+      title: formData.get("title"),
+      category: formData.get("category"),
+      desc: formData.get("desc"),
+      content: value,
+    };
+
+    mutate(data);
+  };
+
   return (
     <div className="h-[calc(100vh-64px)] md:h-[calc(100vh-80px)] flex flex-col gap-6">
       <h1 className="text-cl font-light">Create a New Post</h1>
-      <form className="flex flex-col gap-6 flex-1 mb-6">
+      <form onSubmit={handleSubmit} className="flex flex-col gap-6 flex-1 mb-6">
         <button className="w-max p-2 shadow-md rounded-xl text-sm text-gray-500 bg-white">
           Add a cover image
         </button>
@@ -60,10 +93,16 @@ function Write() {
         <ReactQuill
           theme="snow"
           className="flex-1 rounded-xl bg-white shadow-md"
+          value={value}
+          onChange={setValue}
         />
-        <button className="bg-blue-800 text-white font-medium rounded-xl mt-4 p-2 w-36">
-          Send
+        <button
+          disabled={isPending}
+          className="bg-blue-800 text-white font-medium rounded-xl mt-4 p-2 w-36 cursor-pointer disabled:cursor-not-allowed disabled:bg-blue-400"
+        >
+          {isPending ? "Publishing..." : "Publish"}
         </button>
+        {isError && <span className="text-red-500">{error.message}</span>}
       </form>
     </div>
   );

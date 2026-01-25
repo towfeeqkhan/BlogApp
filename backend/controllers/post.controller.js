@@ -20,8 +20,22 @@ export const createPost = async (req, res) => {
 
   const user = await User.findOne({ clerkUserId: userId });
 
+  let baseSlug = req.body.title.trim().toLowerCase().replace(/\s+/g, "-");
+
+  let slug = baseSlug;
+
+  let existingPost = await Post.findOne({ slug });
+
+  let counter = 2;
+
+  while (existingPost) {
+    slug = `${baseSlug}-${counter}`;
+    existingPost = await Post.findOne({ slug });
+    counter++;
+  }
+
   const post = req.body;
-  const newPost = await Post.create({ user: user._id, ...post });
+  const newPost = await Post.create({ user: user._id, slug, ...post });
   res.status(201).json(newPost);
 };
 
@@ -34,7 +48,7 @@ export const deletePost = async (req, res) => {
 
   const user = await User.findOne({ clerkUserId: userId });
 
-  const deletedPost = await Post.findByIdAndDelete({
+  const deletedPost = await Post.findOneAndDelete({
     _id: req.params.id,
     user: user._id,
   });

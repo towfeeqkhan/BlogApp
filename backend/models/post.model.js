@@ -7,6 +7,7 @@ const postSchema = new mongoose.Schema(
     title: { type: String, required: true, trim: true },
     slug: { type: String, required: true, unique: true, lowercase: true },
     desc: { type: String },
+    category: { type: String, default: "general" },
     content: { type: String, required: true },
     isFeatured: { type: Boolean, default: false },
     visit: { type: Number, default: 0, min: 0 },
