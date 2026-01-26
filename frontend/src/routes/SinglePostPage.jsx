@@ -34,6 +34,14 @@ const SinglePostPage = () => {
           </h1>
           <div className="flex items-center gap-2 text-gray-400 text-sm">
             <span>Written by</span>
+            {data.user.img && (
+              <IKImage
+                src={data.user.img}
+                className="w-8 h-8 rounded-full object-cover"
+                w={32}
+                h={32}
+              />
+            )}
             <Link
               to={`/posts?author=${data.user.username}`}
               className="text-blue-800"
@@ -70,8 +78,8 @@ const SinglePostPage = () => {
                 <IKImage
                   src={data.user.img}
                   className="w-12 h-12 rounded-full object-cover"
-                  w="48"
-                  h="48"
+                  w={48}
+                  h={48}
                 />
               )}
               <Link
@@ -81,9 +89,7 @@ const SinglePostPage = () => {
                 {data.user.username}
               </Link>
             </div>
-            <p className="text-sm text-gray-500">
-              Lorem ipsum dolor sit amet consectetur
-            </p>
+            <p className="text-sm text-gray-500">Content Creator</p>
             <div className="flex gap-2">
               <Link>
                 <IKImage src="blogApp/facebook.svg" alt="facebook" />

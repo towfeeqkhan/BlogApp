@@ -59,7 +59,7 @@ export const getPosts = async (req, res) => {
   }
 
   const posts = await Post.find(query)
-    .populate("user", "username")
+    .populate("user", "username img")
     .sort(sortObj)
     .limit(limit)
     .skip((page - 1) * limit);
@@ -73,7 +73,7 @@ export const getPosts = async (req, res) => {
 export const getPost = async (req, res) => {
   const post = await Post.findOne({ slug: req.params.slug }).populate(
     "user",
-    "username clerkUserId",
+    "username clerkUserId img",
   );
   res.json(post);
 };
