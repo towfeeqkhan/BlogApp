@@ -66,7 +66,7 @@ const SinglePostPage = () => {
       <div className="flex flex-col md:flex-row gap-12 justify-between">
         {/* text */}
         <div
-          className="lg:text-lg flex flex-col gap-6 flex-1 min-w-0 break-words"
+          className="lg:text-lg flex flex-col gap-6 flex-1 min-w-0 wrap-break-word"
           dangerouslySetInnerHTML={{ __html: data.content }}
         />
         {/* menu */}
