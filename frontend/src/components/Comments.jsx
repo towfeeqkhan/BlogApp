@@ -10,10 +10,7 @@ const fetchComments = async (postId) => {
   return res.data;
 };
 
-import { useNavigate } from "react-router"; // Added import but need to ensure it's at top? No, replace_file_content works on blocks.
-// Wait, I need to add the import separately or assume it's there? It's not there.
-// I will just add logic and use navigate. But I need to define navigate.
-// I'll assume I can add the hook.
+import { useNavigate } from "react-router";
 
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast } from "react-toastify";
