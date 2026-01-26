@@ -5,6 +5,7 @@ import { format } from "timeago.js";
 import Comments from "../components/Comments";
 import IKImage from "../components/IKImage";
 import PostMenuActions from "../components/PostMenuActions";
+import Search from "../components/Search";
 
 const fetchPost = async (slug) => {
   const res = await axios.get(`${import.meta.env.VITE_API_URL}/posts/${slug}`);
@@ -114,8 +115,8 @@ const SinglePostPage = () => {
               Marketing
             </Link>
           </div>
-          {/* <h1 className="mt-8 mb-4 text-sm font-medium">Search</h1>
-          <Search /> */}
+          <h1 className="mt-8 mb-4 text-sm font-medium">Search</h1>
+          <Search />
         </div>
       </div>
       <Comments postId={data._id} />

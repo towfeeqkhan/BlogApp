@@ -17,11 +17,12 @@ function Homepage() {
         {/* titles */}
         <div className="">
           <h1 className="text-gray-800 text-2xl md:text-5xl lg:text-[55px] font-bold">
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+            Create, Share and Inspire.
           </h1>
           <p className="mt-8 text-md md:text-xl">
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sequi
-            rerum accusantium.
+            Discover the latest trends in web development, design, and
+            technology. Join our community of creators and share your story with
+            the world.
           </p>
         </div>
         {/* animated button */}

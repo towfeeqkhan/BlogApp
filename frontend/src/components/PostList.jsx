@@ -35,6 +35,10 @@ const PostList = () => {
 
   const allPosts = data?.pages?.flatMap((page) => page.posts || []) || [];
 
+  if (allPosts.length === 0) {
+    return "Post not found!";
+  }
+
   return (
     <InfiniteScroll
       dataLength={allPosts.length}
