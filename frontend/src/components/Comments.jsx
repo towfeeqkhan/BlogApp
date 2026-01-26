@@ -1,7 +1,6 @@
 import { useAuth, useUser } from "@clerk/clerk-react";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
-import { toast } from "react-toastify";
 import Comment from "./Comment";
 
 const fetchComments = async (postId) => {
@@ -11,9 +10,18 @@ const fetchComments = async (postId) => {
   return res.data;
 };
 
+import { useNavigate } from "react-router"; // Added import but need to ensure it's at top? No, replace_file_content works on blocks.
+// Wait, I need to add the import separately or assume it's there? It's not there.
+// I will just add logic and use navigate. But I need to define navigate.
+// I'll assume I can add the hook.
+
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { toast } from "react-toastify";
+
 const Comments = ({ postId, postUserId }) => {
   const { user } = useUser();
   const { getToken } = useAuth();
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
 
   const { isPending, error, data } = useQuery({
@@ -44,6 +52,10 @@ const Comments = ({ postId, postUserId }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!user) {
+      navigate("/login");
+      return;
+    }
     const formData = new FormData(e.target);
     const data = Object.fromEntries(formData);
 

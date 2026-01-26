@@ -30,6 +30,10 @@ const PostMenuActions = ({ post }) => {
 
   const { isPending: isSaving, mutate: savePost } = useMutation({
     mutationFn: async () => {
+      if (!user) {
+        navigate("/login");
+      }
+
       const token = await getToken();
       return axios.patch(
         `${import.meta.env.VITE_API_URL}/users/save`,
