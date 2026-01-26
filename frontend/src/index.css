@@ -2,9 +2,15 @@
 
 body {
   background-color: #e6e6ff;
-  width: 100vw;
   font-family: "Montserrat", sans-serif;
   overflow-x: hidden;
+}
+
+.text-justify img,
+.text-justify iframe,
+.text-justify video {
+  max-width: 100%;
+  height: auto;
 }
 
 .animatedButton {

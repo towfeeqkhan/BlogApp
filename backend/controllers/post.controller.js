@@ -73,7 +73,7 @@ export const getPosts = async (req, res) => {
 export const getPost = async (req, res) => {
   const post = await Post.findOne({ slug: req.params.slug }).populate(
     "user",
-    "username",
+    "username clerkUserId",
   );
   res.json(post);
 };
@@ -138,4 +138,45 @@ const imagekit = new ImageKit({
 export const uploadAuth = async (req, res) => {
   const result = imagekit.helper.getAuthenticationParameters();
   res.send(result);
+};
+
+export const featurePost = async (req, res) => {
+  const { userId } = req.auth();
+
+  if (!userId) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+
+  const postId = req.body.postId;
+
+  const post = await Post.findById(postId);
+
+  if (!post) {
+    return res.status(404).json({ message: "Post not found" });
+  }
+
+  // Optional: Check if the user is the owner or an admin
+  // For now, assuming any authenticated user (or owner) can feature it?
+  // User asked for "Feature", usually it's "Feature this post" on their own blog?
+  // Let's assume user must be the owner to feature it?
+  // Or maybe it's "Feature on the homepage"? That's usually admin only.
+  // Given the context of "fullstack-projects", let's assume owner can feature it.
+
+  const user = await User.findOne({ clerkUserId: userId });
+
+  if (user._id.toString() !== post.user.toString()) {
+    // If not owner, checking typical "admin" logic or just strict owner?
+    // Let's stick to owner for now.
+    return res.status(403).json({ message: "You are not authorized!" });
+  }
+
+  const updatedPost = await Post.findByIdAndUpdate(
+    postId,
+    {
+      isFeatured: !post.isFeatured,
+    },
+    { new: true },
+  );
+
+  res.status(200).json(updatedPost);
 };

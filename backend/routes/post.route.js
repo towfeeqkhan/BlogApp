@@ -2,6 +2,7 @@ import express from "express";
 import {
   createPost,
   deletePost,
+  featurePost,
   getPost,
   getPosts,
   uploadAuth,
@@ -15,6 +16,8 @@ router.get("/", getPosts);
 router.get("/:slug", getPost);
 
 router.post("/", createPost);
+
+router.patch("/feature", featurePost);
 
 router.delete("/:id", deletePost);
 
