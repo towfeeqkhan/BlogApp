@@ -170,7 +170,7 @@ function Write() {
           Add a cover image
         </button> */}
         <label className="cursor-pointer">
-          <div className="w-max p-2 shadow-md rounded-xl text-sm text-gray-500 bg-white">
+          <div className="w-max p-2 shadow-md rounded-xl text-sm text-gray-500 bg-white dark:bg-gray-800 dark:text-gray-200">
             Add a cover image
           </div>
           <input
@@ -220,7 +220,7 @@ function Write() {
           <select
             name="category"
             id=""
-            className="p-2 rounded-xl bg-white shadow-md"
+            className="p-2 rounded-xl bg-white shadow-md dark:bg-gray-800 dark:text-white"
           >
             <option value="general">General</option>
             <option value="web-design">Web Design</option>
@@ -231,13 +231,13 @@ function Write() {
           </select>
         </div>
         <textarea
-          className="p-4 rounded-xl bg-white shadow-md"
+          className="p-4 rounded-xl bg-white shadow-md dark:bg-gray-800 dark:text-white"
           name="desc"
           placeholder="A Short Description"
         />
         <ReactQuill
           theme="snow"
-          className="flex-1 rounded-xl bg-white shadow-md min-h-75"
+          className="flex-1 rounded-xl bg-white shadow-md min-h-75 dark:bg-gray-800 dark:text-white"
           value={value}
           onChange={setValue}
           ref={reactQuillRef}

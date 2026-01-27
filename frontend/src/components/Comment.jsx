@@ -32,7 +32,7 @@ function Comment({ comment, postId, postUserId }) {
   });
 
   return (
-    <div className="p-4 bg-slate-50 rounded-xl mb-8">
+    <div className="p-4 bg-slate-50 rounded-xl mb-8 dark:bg-slate-800 dark:text-slate-200">
       <div className="flex items-center gap-4">
         {comment.user.img && (
           <IKImage
@@ -42,7 +42,7 @@ function Comment({ comment, postId, postUserId }) {
           />
         )}
         <span className="font-medium">{comment.user.username}</span>
-        <span className="text-sm text-gray-500">
+        <span className="text-sm text-gray-500 dark:text-gray-400">
           {format(comment.createdAt)}
         </span>
         {user &&

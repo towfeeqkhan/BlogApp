@@ -28,7 +28,7 @@ function SideMenu() {
             value="newest"
             onChange={handleFilterChange}
             checked={sort === "newest" || sort === ""}
-            className="appearance-none w-4 h-4 border-[1.5px] border-blue-800 cursor-pointer rounded-sm bg-white checked:bg-blue-800"
+            className="appearance-none w-4 h-4 border-[1.5px] border-blue-800 cursor-pointer rounded-sm bg-white checked:bg-blue-800 dark:bg-gray-800"
           />
           Newest
         </label>
@@ -39,7 +39,7 @@ function SideMenu() {
             value="popular"
             onChange={handleFilterChange}
             checked={sort === "popular"}
-            className="appearance-none w-4 h-4 border-[1.5px] border-blue-800 cursor-pointer rounded-sm bg-white checked:bg-blue-800"
+            className="appearance-none w-4 h-4 border-[1.5px] border-blue-800 cursor-pointer rounded-sm bg-white checked:bg-blue-800 dark:bg-gray-800"
           />
           Most Popular
         </label>
@@ -50,7 +50,7 @@ function SideMenu() {
             value="trending"
             onChange={handleFilterChange}
             checked={sort === "trending"}
-            className="appearance-none w-4 h-4 border-[1.5px] border-blue-800 cursor-pointer rounded-sm bg-white checked:bg-blue-800"
+            className="appearance-none w-4 h-4 border-[1.5px] border-blue-800 cursor-pointer rounded-sm bg-white checked:bg-blue-800 dark:bg-gray-800"
           />
           Trending
         </label>
@@ -61,7 +61,7 @@ function SideMenu() {
             value="oldest"
             onChange={handleFilterChange}
             checked={sort === "oldest"}
-            className="appearance-none w-4 h-4 border-[1.5px] border-blue-800 cursor-pointer rounded-sm bg-white checked:bg-blue-800"
+            className="appearance-none w-4 h-4 border-[1.5px] border-blue-800 cursor-pointer rounded-sm bg-white checked:bg-blue-800 dark:bg-gray-800"
           />
           Oldest
         </label>

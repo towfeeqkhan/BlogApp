@@ -23,19 +23,25 @@ function PostListItem({ post }) {
         <div className="flex items-center gap-2 text-gray-400 text-sm">
           <span>Written by</span>
           <Link
-            className="text-blue-800"
+            className="text-blue-800 dark:text-blue-400"
             to={`/posts?author=${post.user.username}`}
           >
             {post.user.username}
           </Link>
           <span>on</span>
-          <Link to={`/posts?cat=${post.category}`} className="text-blue-800">
+          <Link
+            to={`/posts?cat=${post.category}`}
+            className="text-blue-800 dark:text-blue-400"
+          >
             {post.category}
           </Link>
           <span>{format(post.createdAt)}</span>
         </div>
         <p>{post.desc}</p>
-        <Link to={`/${post.slug}`} className="underline text-blue-800 text-sm">
+        <Link
+          to={`/${post.slug}`}
+          className="underline text-blue-800 text-sm dark:text-blue-400"
+        >
           Read More
         </Link>
       </div>

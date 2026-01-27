@@ -1,7 +1,9 @@
 @import "tailwindcss";
 
+@variant dark (&:where(.dark, .dark *));
+
 body {
-  background-color: #e6e6ff;
+  @apply bg-[#e6e6ff] text-black dark:bg-[#0f172a] dark:text-gray-200 transition-colors duration-300;
   font-family: "Montserrat", sans-serif;
   overflow-x: hidden;
 }
@@ -28,4 +30,25 @@ body {
 .ql-editor {
   border: none !important;
   font-size: 1.125rem !important; /* text-lg */
+}
+
+/* Dark mode for React Quill */
+.dark .ql-toolbar {
+  background-color: #1f2937 !important; /* gray-800 */
+}
+
+.dark .ql-stroke {
+  stroke: #e5e7eb !important; /* gray-200 */
+}
+
+.dark .ql-fill {
+  fill: #e5e7eb !important; /* gray-200 */
+}
+
+.dark .ql-picker {
+  color: #e5e7eb !important;
+}
+
+.dark .ql-picker-options {
+  background-color: #1f2937 !important;
 }

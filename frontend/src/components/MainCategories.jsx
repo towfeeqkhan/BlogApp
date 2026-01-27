@@ -3,7 +3,7 @@ import Search from "./Search";
 
 const MainCategories = () => {
   return (
-    <div className="hidden md:flex bg-white rounded-3xl xl:rounded-full p-4 shadow-lg items-center justify-center gap-6">
+    <div className="hidden md:flex bg-white dark:bg-gray-800 dark:text-white rounded-3xl xl:rounded-full p-4 shadow-lg items-center justify-center gap-6">
       {/* links */}
       <div className="flex-1 flex items-center justify-between flex-wrap">
         <Link

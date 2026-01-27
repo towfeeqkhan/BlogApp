@@ -32,7 +32,7 @@ const SinglePostPage = () => {
           <h1 className="text-xl md:text-3xl xl:text-4xl 2xl:text-5xl font-semibold">
             {data.title}
           </h1>
-          <div className="flex items-center gap-2 text-gray-400 text-sm">
+          <div className="flex items-center gap-2 text-gray-400 dark:text-gray-300 text-sm">
             <span>Written by</span>
             {data.user.img && (
               <IKImage
@@ -44,17 +44,22 @@ const SinglePostPage = () => {
             )}
             <Link
               to={`/posts?author=${data.user.username}`}
-              className="text-blue-800"
+              className="text-blue-800 dark:text-blue-400"
             >
               {data.user.username}
             </Link>
             <span>on</span>
-            <Link to={`/posts?cat=${data.category}`} className="text-blue-800">
+            <Link
+              to={`/posts?cat=${data.category}`}
+              className="text-blue-800 dark:text-blue-400"
+            >
               {data.category}
             </Link>
             <span>{format(data.createdAt)}</span>
           </div>
-          <p className="text-gray-500 font-medium">{data.desc}</p>
+          <p className="text-gray-500 dark:text-gray-400 font-medium">
+            {data.desc}
+          </p>
         </div>
         {data.img && (
           <div className="hidden lg:block w-2/5">
@@ -84,12 +89,14 @@ const SinglePostPage = () => {
               )}
               <Link
                 to={`/posts?author=${data.user.username}`}
-                className="text-blue-800"
+                className="text-blue-800 dark:text-blue-400"
               >
                 {data.user.username}
               </Link>
             </div>
-            <p className="text-sm text-gray-500">Content Creator</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400">
+              Content Creator
+            </p>
             <div className="flex gap-2">
               <Link>
                 <IKImage src="blogApp/facebook.svg" alt="facebook" />
