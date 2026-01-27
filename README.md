@@ -6,6 +6,8 @@
 
 # BlogApp
 
+[View Live Project](https://blogapp-nine-mauve.vercel.app)
+
 A full-stack dynamic blog web application built using the MERN stack. It features a scalable architecture divided into `frontend` and `backend` directories, allowing users to seamlessly create, read, and manage blog posts.
 
 **Tech Stack:** React.js, Node.js, Express.js, and MongoDB.
