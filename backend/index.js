@@ -49,6 +49,9 @@ app.use(function (req, res, next) {
 //     .json({ message: "You are authorized to access this protected route." });
 // });
 
+app.get("/ping", (req, res) => {
+  res.status(200).send("pong");
+});
 app.use("/users", userRouter);
 app.use("/posts", postRouter);
 app.use("/comments", commentRouter);
