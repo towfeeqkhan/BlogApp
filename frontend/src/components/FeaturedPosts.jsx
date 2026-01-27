@@ -17,7 +17,46 @@ function FeaturedPosts() {
     queryFn: () => fetchPost(),
   });
 
-  if (isPending) return "loading...";
+  if (isPending)
+    return (
+      <div className="mt-8 flex flex-col lg:flex-row gap-8">
+        {/* First */}
+        <div className="w-full lg:w-1/2 flex flex-col gap-4">
+          {/* image */}
+          <div className="rounded-3xl h-64 lg:h-80 shimmer" />
+          {/* details */}
+          <div className="flex items-center gap-4">
+            <div className="h-6 w-10 rounded shimmer" />
+            <div className="h-6 w-24 rounded shimmer" />
+            <div className="h-6 w-20 rounded shimmer" />
+          </div>
+          {/* title */}
+          <div className="h-8 lg:h-10 w-full rounded shimmer" />
+          <div className="h-8 lg:h-10 w-3/4 rounded shimmer" />
+          {/* author */}
+          <div className="flex items-center gap-2">
+            <div className="h-5 w-8 rounded shimmer" />
+            <div className="h-5 w-24 rounded shimmer" />
+          </div>
+        </div>
+        {/* Others */}
+        <div className="w-full lg:w-1/2 flex flex-col gap-4">
+          {[1, 2, 3].map((item) => (
+            <div key={item} className="lg:h-1/3 flex justify-between gap-4">
+              <div className="w-1/3 aspect-video rounded-3xl shimmer" />
+              <div className="w-2/3 flex flex-col gap-2">
+                <div className="flex items-center gap-4">
+                  <div className="h-4 w-10 rounded shimmer" />
+                  <div className="h-4 w-20 rounded shimmer" />
+                </div>
+                <div className="h-6 w-full rounded shimmer" />
+                <div className="h-4 w-1/4 rounded shimmer" />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
   if (error) return "Something went wrong!" + error.message;
 
   const posts = data.posts;
@@ -31,7 +70,7 @@ function FeaturedPosts() {
         {posts[0].img && (
           <IKImage
             src={posts[0].img}
-            className="rounded-3xl object-cover"
+            className="rounded-3xl object-cover w-full h-64 lg:h-80"
             w={895}
           />
         )}
