@@ -9,6 +9,11 @@ import webHookRouter from "./routes/webhook.route.js";
 
 const app = express();
 
+// (Top Priority)
+app.get("/ping", (req, res) => {
+  res.status(200).send("pong");
+});
+
 app.use(cors(process.env.CLIENT_URL));
 
 app.use(clerkMiddleware());
@@ -49,9 +54,6 @@ app.use(function (req, res, next) {
 //     .json({ message: "You are authorized to access this protected route." });
 // });
 
-app.get("/ping", (req, res) => {
-  res.status(200).send("pong");
-});
 app.use("/users", userRouter);
 app.use("/posts", postRouter);
 app.use("/comments", commentRouter);
